@@ -1,38 +1,83 @@
-.App {
+/* App.css */
+
+.app {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #ecfdf5; /* light green */
+  color: #111;
+}
+
+.header {
+  background-color: #2563eb; /* blue */
+  color: white;
+  padding: 1rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.input-group {
+  margin-bottom: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.input-group textarea {
+  height: 12rem;
+  resize: vertical;
+}
+
+.buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.button-primary {
+  background-color: #2563eb;
   color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.button-primary:hover {
+  background-color: #1e40af;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button-secondary {
+  background-color: #e5e7eb; /* gray-200 */
+  color: #111;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.button-secondary:hover {
+  background-color: #d1d5db; /* gray-300 */
+}
+
+.error {
+  color: #b91c1c;
+  margin-bottom: 1rem;
 }
