@@ -1,21 +1,25 @@
-// frontend/src/App.js
+// src/App.js
 import React, { useState } from "react";
-import ResultCard from "./components/ResultCard"; // create this file under src/components
+import ResultCard from "./components/ResultCard";
+import "./App.css";
 
-export default function App(){
-  const [text, setText] = useState("");
+export default function App() {
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const analyze = async () => {
-    if (!text.trim()) return;
-    setLoading(true); setError(null); setResult(null);
+    if (!subject.trim() && !body.trim()) return;
+    setLoading(true);
+    setError(null);
+    setResult(null);
     try {
       const res = await fetch("http://127.0.0.1:5001/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text: `Subject: ${subject}\n\n${body}` })
       });
       const j = await res.json();
       if (!res.ok) setError(j.error || "Server error");
@@ -27,22 +31,52 @@ export default function App(){
     }
   };
 
+  const clearAll = () => {
+    setSubject("");
+    setBody("");
+    setResult(null);
+    setError(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-blue-600 text-white p-4">
-        <h1 className="text-xl font-semibold">PhishNet — Email Scam Detector</h1>
+    <div className="app">
+      <header className="header">
+        <h1>PhishNet — Email Scam Detector</h1>
       </header>
-      <main className="max-w-3xl mx-auto p-6">
-        <p className="mb-4 text-gray-700">Paste an email message below and click Analyze.</p>
-        <textarea value={text} onChange={e=>setText(e.target.value)}
-          className="w-full h-56 p-3 border rounded-md" placeholder="Paste full email text here..."/>
-        <div className="mt-4 flex gap-2">
-          <button onClick={analyze} disabled={loading}
-            className="bg-blue-600 text-white px-4 py-2 rounded">{loading ? "Analyzing..." : "Analyze"}</button>
-          <button onClick={()=>{setText(""); setResult(null); setError(null);}} className="bg-gray-200 px-4 py-2 rounded">Clear</button>
+
+      <main className="main">
+        <p>Enter the subject and message body below, then click Analyze.</p>
+
+        <div className="input-group">
+          <label>Subject</label>
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder="Enter email subject"
+          />
         </div>
-        {error && <div className="mt-4 text-red-600">{error}</div>}
-        {result && <div className="mt-6"><ResultCard result={result} /></div>}
+
+        <div className="input-group">
+          <label>Message Body</label>
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder="Enter full email body here..."
+          />
+        </div>
+
+        <div className="buttons">
+          <button onClick={analyze} disabled={loading} className="button-primary">
+            {loading ? "Analyzing..." : "Analyze"}
+          </button>
+          <button onClick={clearAll} className="button-secondary">
+            Clear
+          </button>
+        </div>
+
+        {error && <div className="error">{error}</div>}
+        {result && <ResultCard result={result} />}
       </main>
     </div>
   );
